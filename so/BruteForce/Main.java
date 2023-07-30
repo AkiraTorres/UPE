@@ -1,20 +1,38 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class Main {
     public static void main(String[] args) {
-        String password = "5555555555";
-        long start = System.currentTimeMillis();
+        int T = 5;
+        Password password = new Password("8888888888");
+        List<BreakPassword> breakers = new ArrayList<>();
 
-        BreakPassword breaker1 = new BreakPassword("0000000000", "9999999999", password);
+        if (T > 1) {
+            long start = 0L;
+            long end = 9999999999L / T;
+            long section = 9999999999L / T;
+            for (int i = T; i > 0; i--) {
+                breakers.add(new BreakPassword(password, start, end));
+                start = end + 1;
+                if (end + section <= 9999999999L) {
+                    end += section;
+                } else {
+                    end = 9999999999L;
+                }
+            }
 
-        breaker1.start();
-        try {
-            breaker1.join();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            for (BreakPassword breaker : breakers) {
+                breaker.start();
+            }
+
+            try {
+                for (BreakPassword breaker : breakers) {
+                    breaker.join();
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-
-        long finish = System.currentTimeMillis();
-        long timeElapsed = finish - start;
-        System.out.println("Tempo de execução: " + timeElapsed);
     }
 }
