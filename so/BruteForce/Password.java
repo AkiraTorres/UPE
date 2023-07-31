@@ -1,11 +1,9 @@
 public class Password {
     private static Boolean broken = false;
-    private final String strPassword;
-    private final Long lonPassword;
+    private final String password;
 
-    public Password(String strPassword) {
-        this.strPassword = strPassword;
-        this.lonPassword = Long.parseLong(strPassword);
+    public Password(String password) {
+        this.password = password;
     }
 
     public synchronized static void setBroken() {
@@ -16,11 +14,7 @@ public class Password {
         return broken;
     }
 
-    public String getStrPassword() {
-        return strPassword;
-    }
-
-    public Long getLonPassword() {
-        return lonPassword;
+    public String getPassword() {
+        return password;
     }
 }
