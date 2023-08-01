@@ -1,28 +1,29 @@
 public class BreakPassword extends Thread {
-    Password password;
-    String current, max;
-    long currentLong;
+    private final String password;
+    private long current;
+    private final long max, longPass;
+    private static Boolean isBroken = false;
 
-    public BreakPassword(Password password, String min, String max) {
+    public BreakPassword(String password, long min, long max) {
         this.password = password;
         current = min;
         this.max = max;
+        this.longPass = Long.parseLong(password);
     }
 
     public void run() {
+//        System.out.println(Utils.GREEN + "[" + getName() + "] " + current + " | " + max);
         long start = System.currentTimeMillis();
-        while (!current.equals(max) && !Password.isBroken()) {
-            if (current.equals(password.getPassword())) {
+        while (current <= max && !isBroken) {
+            if (current == longPass) {
                 long finish = System.currentTimeMillis();
                 long timeElapsed = finish - start;
-                System.out.println(Utils.GREEN + "[" + getName() + "] " + Utils.RESET + "Broke the password -> " + Utils.CYAN + current);
+                System.out.println(Utils.GREEN + "[" + getName() + "] " + Utils.RESET + "Broke the password -> " + Utils.CYAN + password);
                 System.out.println(Utils.GREEN + "[" + getName() + "] " + Utils.RESET +"Execution time:" + timeElapsed);
-                Password.setBroken();
+                isBroken = true;
                 return;
             }
-            long currentLong = Long.parseLong(current);
-            currentLong++;
-            current = Utils.padLeftZeros(currentLong);
+            current++;
         }
     }
 }
