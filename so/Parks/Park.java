@@ -10,9 +10,9 @@ public class Park {
     }
 
     public void wander(Class t) throws InterruptedException {
-        System.out.println("Turma [" + Utils.GREEN + t.getClassName() + Utils.RESET + "] entrou no parque " + name);
+        System.out.println(Utils.GREEN + "Turma [" + t.getClassName() + "] " + Utils.RESET + "entrou no parque " + name);
         Thread.sleep(t.getVelocity());
-        System.out.println("Turma [" + Utils.GREEN + t.getClassName() + Utils.RESET + "] saiu do parque " + name);
+        System.out.println(Utils.GREEN + "Turma [" + t.getClassName() + "] " + Utils.RESET + "saiu do parque " + name);
         counter++;
 
         if (counter < totalClasses) {
